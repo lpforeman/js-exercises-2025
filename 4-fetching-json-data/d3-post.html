@@ -35,6 +35,20 @@
         console.log("Response:", response)
         // work with the response here
 
+        const returnedData = response.json()
+        console.log("Returned Data:", returnedData)        // Display the returned data in a human-readable format
+       
+        d3.select("body")
+          .append("p")
+          .text("POST request successful!")
+
+        d3.select("body")
+          .append("p")
+          .text("Returned Name: " + returnedData.name)
+
+        d3.select("body")
+          .append("p")
+          .text("Returned Email: " + returnedData.email)
 
 
       })

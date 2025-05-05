@@ -95,13 +95,57 @@
             console.log("PART 1...")
 
 
+            console.log("NUM DAYS:", data.length)
 
+                var latest = data[0]
+                //console.log(latest)
+                console.log("LATEST:", latest["timestamp"], latest["adjusted_close"])
+
+                var earliest = data[data.length - 1]
+                console.log("EARLIEST:", earliest["timestamp"], earliest["adjusted_close"])
+
+                // percent change = (final - initial) / initial
+                var latestClose = parseFloat(latest["adjusted_close"])
+                var earliestClose = parseFloat(earliest["adjusted_close"])
+                var pctChange = (latestClose - earliestClose) / earliestClose
+                console.log("RETURN / PCT CHANGE:", pctChange)
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
+                // Format values for display
+                var formattedEarliest = `${earliest["timestamp"]} (${formatUSD(earliestClose)})`
+                var formattedLatest = `${latest["timestamp"]} (${formatUSD(latestClose)})`
+                var formattedPctChange = formatPct(pctChange)
 
+                // Display in spans
+                d3.select("#display-symbol").text(symbol)
+                d3.select("#display-earliest").text(formattedEarliest)
+                d3.select("#display-latest").text(formattedLatest)
+                d3.select("#display-pct-change").text(formattedPctChange)
+
+            //var dates = ["2025-01-01", "2025-01-02", "2025-01-03"]
+                //var prices = [100, 125, 175]
+
+                var dates = []
+                var prices = []
+                data.forEach(function(row) {
+                    dates.push(row["timestamp"])
+                    prices.push(parseFloat(row["adjusted_close"]))
+                })
+
+                // DATAVIZ
+                // https://plotly.com/javascript/line-charts/
+                var chartData = [
+                    {x: dates, y: prices, mode: "lines+markers"}
+                ]
+                var chartLayout = {
+                    title: {text: `Stock Prices (${symbol})`},
+                    xaxis: {title: {text: "Date"}},
+                    yaxis: {title: {text: "Adjusted Closing Price ($)"}},
+                }
+                Plotly.newPlot("dataviz-container", chartData, chartLayout, {responsive: true})
 
 
 

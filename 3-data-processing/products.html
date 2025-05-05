@@ -62,7 +62,16 @@
         console.log("---------------------")
         console.log("PART 1...")
 
-
+        console.log("Total number of products: " + products.length)
+        console.log("Products:")
+        products.forEach(function(product) {
+            console.log("Name: " + product.name)
+            console.log("Price: " + product.price)
+        })
+        var matchingProducts = products.filter(function(product) {
+            return product.price < 50
+        })
+        console.log("Total number of matching products: " + matchingProducts.length)
 
 
 
@@ -70,7 +79,15 @@
         console.log("---------------------")
         console.log("PART 2...")
 
-
+        var displayProducts = d3.select("#display-products")
+        products.forEach(function(product) {
+            var productDiv = displayProducts.append("div")
+            productDiv.append("p").text("Name: " + product.name)
+            productDiv.append("p").text("Description: " + product.description)
+            productDiv.append("p").text("Price: $" + product.price)
+            productDiv.append("img").attr("src", product.imageURL).attr("alt", product.name)
+            productDiv.append("hr")
+        })
 
 
     </script>
