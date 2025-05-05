@@ -65,6 +65,9 @@
     <script type="text/javascript">
 
         var requestUrl = "TODO"
+        var requestUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic"
+
+
 
         d3.json(requestUrl).then(function(data){
             console.log("DATA:", data)
@@ -72,17 +75,36 @@
 
             console.log("---------------------")
             console.log("PART 1...")
+            
 
-
+            var drinks = data.drinks
+            console.log("NUM DRINKS:", drinks.length)
+            drinks.forEach(function(drink){
+                console.log("Drink:", drink.strDrink, "| ID:", drink.idDrink)
+            })
 
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
+            // Display drink count
+            d3.select("#display-drinks-count").text(drinks.length)
+
+            // Display drinks in the page
+            var container = d3.select("#display-drinks")
+            drinks.forEach(function(drink){
+                var div = container.append("div")
+                div.append("p").text(drink.strDrink)
+                div.append("img")
+                    .attr("src", drink.strDrinkThumb)
+                    .attr("alt", drink.strDrink)
+                    .style("height", "100px")
+            })
 
 
-
+        }).catch(function(error){
+            console.error("ERROR:", error)
         })
 
     </script>

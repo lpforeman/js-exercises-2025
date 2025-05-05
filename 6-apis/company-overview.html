@@ -86,7 +86,12 @@
             sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
         }
 
-
+        // SELECTORS
+        var inputSymbol = document.getElementById("input-symbol")
+        var lookupButton = document.getElementById("lookup")
+        var displayName = document.getElementById("display-name")
+        var displayDescription = document.getElementById("display-description")
+        var displayLink = document.getElementById("display-link")
 
         // FUNCTION DEFINITION
         function lookupCompany() {
@@ -100,15 +105,19 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
-
-
+                console.log("Company Name:", data.Name)
+                console.log("Description:", data.Description)
+                console.log("Website:", data.Website)
 
 
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
-
+                displayName.textContent = data.Name || "N/A"
+                displayDescription.textContent = data.Description || "N/A"
+                displayLink.textContent = data.Website || "N/A"
+                displayLink.href = data.Website || "#"
 
 
 
@@ -119,9 +128,9 @@
 
         // FUNCTION INVOCATIONS
         // invoke function when the page loads:
-        //lookupCompany()
+        lookupCompany()
         // invoke function when button is clicked:
-        //lookupButton.addEventListener("click", lookupCompany, false)
+        lookupButton.addEventListener("click", lookupCompany, false)
 
     </script>
 </body>
