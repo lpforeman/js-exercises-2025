@@ -89,18 +89,40 @@
 
             year = year + 1
             balance = balance * (1 + rate)
-            console.log(year, balance)
+            console.log(`Year ${year}: Rate = ${(rate * 100).toFixed(2)}%, Balance = ${formatUSD(balance)}`)
         }
 
         console.log("DONE!")
         console.log(year, balance)
+        console.log("Final balance:", formatUSD(balance))
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var initialBalance = 150000
+        var targetBalance = 1000000
+        var mean = 0.08
+        var stddev = 0.15
+        var rateGenerator = d3.randomNormal(mean, stddev)
+        var balance = initialBalance
+        var year = 0
+        var rate = rateGenerator()
 
+        while(balance < targetBalance){ // CONDITION
+            // ANNUAL ACCUMULATION  
+            year = year + 1
+            rate = rateGenerator() // generate a new random rate
+            balance = balance * (1 + rate)
+            console.log(`Year ${year}: Rate = ${(rate * 100).toFixed(2)}%, Balance = ${formatUSD(balance)}`)
 
+        }
+        
+        console.log("DONE!")
+        console.log('Initial balance:', formatUSD(initialBalance))
+        console.log('Target balance:', formatUSD(targetBalance))
+        console.log("Final balance:", formatUSD(balance))
+        console.log("Total Years:", year);
 
     </script>
 </body>

@@ -65,15 +65,64 @@
         console.log("PART 1...")
 
 
+        console.log("A)")
+        console.log(gradebook.downloadDate)
+        console.log(gradebook["downloadDate"])
+        console.log("B)")
+        console.log(gradebook.students.length)
+        console.log("C)")
 
+       // gradebook.students.forEach(function(item){
+       //     console.log("---")
+       //     console.log(item)
+       // })
 
+       // gradebook.students.forEach(function(student){
+       //     console.log("---")
+       //     console.log(student)
+       // })
+        
+        gradebook.students.forEach(function(student) {
+            console.log(student.name, student.finalGrade)
+        })
+        console.log("D)")
+        // var grades = [83, 85, 90, 98, 100]
+        var grades = gradebook.students.map(function(student) {
+            return student.finalGrade
+        })
+        console.log("GRADES:", grades)
+        console.log("E)")
+        console.log("MEAN:", d3.mean(grades))
+        console.log("F)")
+        console.log("MEDIAN:", d3.median(grades))
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
 
+        var table = d3.select("#display-gradebook")
 
+        table.append("tr")
+            .selectAll("th")
+            .data(["Student ID", "Student Name", "Final Grade"])
+            .enter()
+            .append("th")
+            .text(function(d) { return d })
+
+        var rows = table.selectAll("tr.data-row")
+            .data(gradebook.students)
+            .enter()
+            .append("tr")
+            .attr("class", "data-row")
+
+        rows.selectAll("td")
+            .data(function(d) {
+                return [d.studentId, d.name, d.finalGrade]
+            })
+            .enter()
+            .append("td")
+            .text(function(d) { return d })
 
 
 

@@ -71,7 +71,22 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        var isRaining = true
+        var ownsUmbrella = false
 
+        console.log("Is Raining:", isRaining)
+        console.log("Owns Umbrella:", ownsUmbrella)
+
+        if (!isRaining) {
+            console.log("Skies are clear")
+        } else {
+            if (ownsUmbrella) {
+                console.log("Bring your umbrella")
+            } else {
+                console.log("Buy an umbrella")
+            }
+        }
+        console.log("DONE!")
 
 
 
@@ -79,13 +94,49 @@
         console.log("PART 2...")
 
 
+        function advise(isRaining, ownsUmbrella) {
+            if (!isRaining) {
+                return "Skies are clear"
+            } else {
+                if (ownsUmbrella) {
+                    return "Bring your umbrella"
+                } else {
+                    return "Buy an umbrella"
+                }
+            }
+        }
 
+        var message1 = advise(true, true)
+        var message2 = advise(true, false)
+        var message3 = advise(false, true)
+        var message4 = advise(false, false)
+
+        console.log(message1) // "Bring your umbrella"
+        console.log(message2) // "Buy an umbrella"
+        console.log(message3) // "Skies are clear"
+        console.log(message4) // "Skies are clear"
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var switchRaining = document.getElementById("switch-raining")
+        var switchUmbrella = document.getElementById("switch-umbrella")
+        var btn = document.getElementById("advise")
+        var displayMessage = document.getElementById("display-message")
 
+        function submit() {
+            var isRaining = switchRaining.checked
+            var ownsUmbrella = switchUmbrella.checked
+            var message = advise(isRaining, ownsUmbrella)
+            console.log("Is Raining:", isRaining)
+            console.log("Owns Umbrella:", ownsUmbrella)
+            console.log("Message:", message)
+
+            // updating the text of the display element:
+            displayMessage.innerText = message
+        }
+        btn.addEventListener("click", submit, false)
 
 
 
