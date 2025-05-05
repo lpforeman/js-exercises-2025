@@ -74,6 +74,10 @@
             return `$${price.toFixed(2)}`
         }
 
+        function upperCase(str) {
+            return str.toUpperCase()
+        }
+
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 
         d3.csv(requestUrl).then(function(data) {
@@ -83,7 +87,38 @@
             console.log("---------------------")
             console.log("PART 1...")
 
+            // A, B, C
+            console.log("NUM PRODUCTS:", products.length)
+            products.forEach(function(product) {
+                var name = product.name
+                var price = parseFloat(product.price)
+                console.log(name, formatUSD(price))
+            })
 
+            // D, E, F
+            var departments = []
+            products.forEach(function(product) {
+                var dept = product.department
+                if (!departments.includes(dept)) {
+                    departments.push(dept)
+                }
+            })
+            console.log("NUM UNIQUE DEPARTMENTS:", departments.length)
+            departments.forEach(function(dept) {
+                console.log(upperCase(dept))
+            })
+
+            // G, H, I
+            var beverages = products.filter(function(p) {
+                return p.department.toLowerCase() === "beverages"
+            })
+            console.log("NUM BEVERAGE PRODUCTS:", beverages.length)
+
+            var beverageTotal = d3.sum(beverages, function(b) {
+                return parseFloat(b.price)
+            })
+            var beverageAvg = beverageTotal / beverages.length
+            console.log("AVG BEVERAGE PRICE:", formatUSD(beverageAvg))
 
 
 
@@ -92,7 +127,18 @@
             console.log("PART 2...")
 
 
+            // A
+            var sortedProducts = products.sort(function(a, b) {
+            return d3.ascending(a.name, b.name)
+            })
 
+            // B
+            var ul = d3.select("#display-groceries")
+            sortedProducts.forEach(function(product) {
+                var name = product.name
+                var price = parseFloat(product.price)
+                ul.append("li").text(`${name} (${formatUSD(price)})`)
+            })
 
 
 
