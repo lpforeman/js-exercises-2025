@@ -46,6 +46,18 @@
         and display the resulting number of years and actual ending balance on the page.
     </p>
 
+    <div>
+        <label>Initial Balance: <input type="number" id="input-initial" value="150000" step="1000"></label><br>
+        <label>Target Balance: <input type="number" id="input-target" value="1000000" step="1000"></label><br>
+        <label>Mean Return (as decimal): <input type="number" id="input-mean" value="0.08" step="0.01"></label><br>
+        <label>Standard Deviation: <input type="number" id="input-stddev" value="0.15" step="0.01"></label><br>
+        <button id="run-simulation">Run Simulation</button>
+    </div>
+
+    <div>
+        <p>Years to reach goal: <span id="output-years">-</span></p>
+        <p>Final Balance: <span id="output-final-balance">-</span></p>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/d3-random@3"></script>
@@ -65,11 +77,11 @@
             // ANNUAL ACCUMULATION OF THE BALANCE
             year = year + 1
             balance = balance * 1.08
-            console.log(year, balance)
+            console.log(year, formatUSD(balance))
         }
 
         console.log("DONE!")
-        console.log(year, balance)
+        console.log(year, formatUSD(balance))
 
 
 
@@ -93,36 +105,34 @@
         }
 
         console.log("DONE!")
-        console.log(year, balance)
+        console.log(year, formatUSD(balance))
         console.log("Final balance:", formatUSD(balance))
 
 
         console.log("---------------------")
         console.log("PART 3...")
 
-        var initialBalance = 150000
-        var targetBalance = 1000000
-        var mean = 0.08
-        var stddev = 0.15
-        var rateGenerator = d3.randomNormal(mean, stddev)
-        var balance = initialBalance
-        var year = 0
-        var rate = rateGenerator()
+        document.getElementById("run-simulation").addEventListener("click", function() {
+            var initial = parseFloat(document.getElementById("input-initial").value)
+            var target = parseFloat(document.getElementById("input-target").value)
+            var mean = parseFloat(document.getElementById("input-mean").value)
+            var stddev = parseFloat(document.getElementById("input-stddev").value)
 
-        while(balance < targetBalance){ // CONDITION
-            // ANNUAL ACCUMULATION  
-            year = year + 1
-            rate = rateGenerator() // generate a new random rate
-            balance = balance * (1 + rate)
-            console.log(`Year ${year}: Rate = ${(rate * 100).toFixed(2)}%, Balance = ${formatUSD(balance)}`)
+            var balance = initial
+            var years = 0
+            var rateGen = d3.randomNormal(mean, stddev)
 
-        }
-        
-        console.log("DONE!")
-        console.log('Initial balance:', formatUSD(initialBalance))
-        console.log('Target balance:', formatUSD(targetBalance))
-        console.log("Final balance:", formatUSD(balance))
-        console.log("Total Years:", year);
+            while(balance < target){
+                var r = rateGen()
+                years += 1
+                balance *= (1 + r)
+            }
+
+            document.getElementById("output-years").textContent = years
+            document.getElementById("output-final-balance").textContent = formatUSD(balance)
+
+            console.log(`Initial: ${formatUSD(initial)}, Target: ${formatUSD(target)}, Years: ${years}, Final: ${formatUSD(balance)}`)
+        })
 
     </script>
 </body>

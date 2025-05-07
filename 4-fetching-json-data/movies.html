@@ -75,79 +75,75 @@
 
     <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
     <script type="text/javascript">
-
-        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/hp-movies.json"
-
-        fetch(requestUrl).then(response => response.json())
-            .then(function(data){
-                console.log("DATA", data)
-
-
-                console.log("---------------------")
-                console.log("PART 1...")
-
-                console.log(data.length)
-
-                data.forEach(function(movie) {
-                    //console.log("---")
-                    //console.log(movie)
-                    console.log(movie.Title, movie.Year)
-                })
-
-                // sort the movies by rating in descending order
-                // so the movie with the highest rating is first
-                // then we can grab the first item from the sorted array
-                // and that will be the one with the highest rating
-                var sortedMovies = data.sort(function(a, b) {
-                    return d3.descending(a.Rating, b.Rating)
-                })
-
-                var highestRated = sortedMovies[0]
-                console.log("HIGHEST RATED:", highestRated.Title, highestRated.Rating)
-
-
-
-                console.log("---------------------")
-                console.log("PART 2...")
-
-
-                // dynamically create a new <option> element for each movie
-                var selectMovie = d3.select("#select-movie")
-                var options = selectMovie.selectAll("option")
-                    .data(data)
-                    .enter()
-                    .append("option")
-                    .attr("value", function(d) { return d.ID })
-                    .text(function(d) { return d.Title })
-                
-                //update movie info function
-                function updateMovieInfo() {
-                    var selectedMovieId = selectMovie.property("value")
-                    var selectedMovie = data.find(function(movie) {
-                        return movie.ID == selectedMovieId
-                    })
-                    console.log("SELECTED MOVIE:", selectedMovie)
-
-                    d3.select("#display-title").text(selectedMovie.Title)
-                    d3.select("#display-year").text(selectedMovie.Year)
-                    d3.select("#display-rating").text(selectedMovie.Rating)
-
-                    // display the image of the movie poster
-                    var imageContainer = d3.select("#image-container")
-                    imageContainer.selectAll("img").remove() // clear previous images
-                    imageContainer.append("img")
-                        .attr("src", selectedMovie.Poster)
-                        .attr("alt", selectedMovie.Title)
-                        .attr("width", "200px")
-                }
-                // add an event listener to the dropdown
-                selectMovie.on("change", updateMovieInfo)
-
-
-
-            })
-            .catch(err => console.log(err))
-
-    </script>
+        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/main/data/hp-movies.json";
+      
+        fetch(requestUrl)
+          .then(response => response.json())
+          .then(function(data) {
+            console.log("DATA", data);
+      
+            console.log("---------------------");
+            console.log("PART 1...");
+      
+            console.log("Number of movies:", data.length);
+      
+            data.forEach(function(movie) {
+              console.log(movie.Title, movie.Year);
+            });
+      
+            // Sort the movies by rating in descending order
+            var sortedMovies = data.slice().sort(function(a, b) {
+              return b.Rating - a.Rating;
+            });
+      
+            var highestRated = sortedMovies[0];
+            console.log("HIGHEST RATED:", highestRated.Title, highestRated.Rating);
+      
+            console.log("---------------------");
+            console.log("PART 2...");
+      
+            // Dynamically create a new <option> element for each movie
+            var selectMovie = document.getElementById("select-movie");
+      
+            data.forEach(function(movie) {
+              var option = document.createElement("option");
+              option.value = movie.Id;
+              option.textContent = movie.Title;
+              selectMovie.appendChild(option);
+            });
+      
+            // Update movie info function
+            function updateMovieInfo() {
+              var selectedMovieId = selectMovie.value;
+              var selectedMovie = data.find(function(movie) {
+                return movie.Id === selectedMovieId;
+              });
+      
+              if (!selectedMovie) {
+                console.warn("Selected movie not found.");
+                return;
+              }
+      
+              document.getElementById("display-title").textContent = selectedMovie.Title;
+              document.getElementById("display-year").textContent = selectedMovie.Year;
+              document.getElementById("display-rating").textContent = selectedMovie.Rating;
+      
+              // Display the image of the movie poster
+              var imageContainer = document.getElementById("image-container");
+              imageContainer.innerHTML = ""; // Clear previous images
+              var img = document.createElement("img");
+              img.src = selectedMovie["Thumbnail Image URL"];
+              img.alt = selectedMovie.Title;
+              img.width = 200;
+              imageContainer.appendChild(img);
+            }
+      
+            // Add an event listener to the dropdown
+            selectMovie.addEventListener("change", updateMovieInfo);
+          })
+          .catch(err => console.log(err));
+      </script>
+      
+    
 </body>
 </html>

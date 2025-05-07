@@ -96,9 +96,6 @@
         trip.stops.forEach(function(stop) {
             console.log("Passenger:", stop.passenger)
         })
-        console.log("G) Fares: ", trip.stops.map(function(stop){
-            return stop.fare
-        }))
         var fares = trip.stops.map(function(stop) {
             return stop.fare
         })
@@ -111,23 +108,21 @@
         console.log("---------------------")
         console.log("PART 2...")
 
-        // Display the driver's first name
-        d3.select("#display-driver").text(trip.driver.first_name)
+        document.addEventListener("DOMContentLoaded", function() {
+            // Display the driver's first name
+            document.getElementById("display-driver").textContent = trip.driver.first_name
 
-        // Display the vehicle's make, model, and license plate number
-        d3.select("#display-vehicle").text(trip.vehicle.make + " " + trip.vehicle.model + " " + trip.vehicle.licensePlate)
+            // Display the vehicle's make, model, and license plate number
+            document.getElementById("display-vehicle").textContent = `${trip.vehicle.make} ${trip.vehicle.model} ${trip.vehicle.licensePlate}`
 
-        // Loop through each of the stops and display that stop's passenger name, one at a time
-        d3.select("#display-passengers")
-            .selectAll("li")
-            .data(trip.stops)
-            .enter()
-            .append("li")
-            .text(function(d) {
-                return d.passenger
+            // Display each passenger name in an <li>
+            var passengerList = document.getElementById("display-passengers")
+            trip.stops.forEach(function(stop) {
+                var li = document.createElement("li")
+                li.textContent = stop.passenger
+                passengerList.appendChild(li)
             })
-
-
+        })
 
     </script>
 
