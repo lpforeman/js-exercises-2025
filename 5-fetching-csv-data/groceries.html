@@ -81,14 +81,15 @@
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 
         d3.csv(requestUrl).then(function(data) {
-            console.log("DATA:", data)
+            console.log("A: Data:", data)
             var products = data
 
             console.log("---------------------")
             console.log("PART 1...")
 
             // A, B, C
-            console.log("NUM PRODUCTS:", products.length)
+            console.log("A: Number of products:", products.length)
+            console.log("B & C: Products and prices:")
             products.forEach(function(product) {
                 var name = product.name
                 var price = parseFloat(product.price)
@@ -103,22 +104,28 @@
                     departments.push(dept)
                 }
             })
-            console.log("NUM UNIQUE DEPARTMENTS:", departments.length)
+            console.log("D: Departments:", departments)
+            console.log("E: Number of unique departments:", departments.length)
+            console.log("F: Departments (upper-case):")
+            // Loop through the array of unique departments and display the name of each, formatted as all upper-case.
             departments.forEach(function(dept) {
                 console.log(upperCase(dept))
             })
 
             // G, H, I
+            console.log("G: Products in beverages department:")
+
             var beverages = products.filter(function(p) {
                 return p.department.toLowerCase() === "beverages"
             })
-            console.log("NUM BEVERAGE PRODUCTS:", beverages.length)
+            console.log(beverages)
+            console.log("H: Number of beverage products:", beverages.length)
 
             var beverageTotal = d3.sum(beverages, function(b) {
                 return parseFloat(b.price)
             })
             var beverageAvg = beverageTotal / beverages.length
-            console.log("AVG BEVERAGE PRICE:", formatUSD(beverageAvg))
+            console.log("I: Average beverage price:", formatUSD(beverageAvg))
 
 
 

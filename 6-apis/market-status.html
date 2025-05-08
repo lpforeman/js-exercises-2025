@@ -94,15 +94,17 @@
 
             // A, B
             var markets = data.markets
-            console.log("TOTAL MARKETS:", markets.length)
+            console.log("A: MARKETS DATA:", markets)
+            console.log("B: TOTAL MARKETS:", markets.length)
 
             // C, D
             var equityMarkets = markets.filter(function(market) {
                 return market.market_type === "Equity"
             })
-            console.log("EQUITY MARKETS:", equityMarkets.length)
+            console.log("C & D: EQUITY MARKETS:", equityMarkets.length)
 
             // E
+            console.log("E: EQUITY MARKETS:")
             equityMarkets.forEach(function(market) {
                 console.log("TYPE:", market.market_type, "| REGION:", market.region)
             })
@@ -113,7 +115,7 @@
             })
 
             // G
-            console.log("US MARKET INFO:")
+            console.log("F & G: US MARKET INFO:")
             console.log("Type:", market.market_type)
             console.log("Exchanges:", market.primary_exchanges)
             console.log("Open:", market.local_open)

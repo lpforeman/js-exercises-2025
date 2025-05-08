@@ -96,15 +96,17 @@
         // FUNCTION DEFINITION
         function lookupCompany() {
             var symbol = inputSymbol.value
-            console.log("SYMBOL:", symbol)
-
+            console.log("A: SYMBOL:", symbol)
+            
             var requestUrl = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${apiKey}`
+            console.log("B: REQUEST URL:", requestUrl)
             d3.json(requestUrl).then(function(data) {
-                console.log("RESPONSE:", data)
+                console.log("C: RESPONSE:", data)
 
                 console.log("---------------------")
                 console.log("PART 1...")
-
+                
+                console.log("D:")
                 console.log("Company Name:", data.Name)
                 console.log("Description:", data.Description)
                 console.log("Website:", data.Website)

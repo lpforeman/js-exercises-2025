@@ -68,9 +68,10 @@
         var requestUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic"
 
 
-
         d3.json(requestUrl).then(function(data){
             console.log("DATA:", data)
+
+        console.log("A: REQUEST URL:", requestUrl)
 
 
             console.log("---------------------")
@@ -78,7 +79,9 @@
             
 
             var drinks = data.drinks
-            console.log("NUM DRINKS:", drinks.length)
+            console.log("B: DRINKS DATA:", drinks)
+            console.log("C: NUM DRINKS:", drinks.length)
+            console.log("D: DRINKS:")
             drinks.forEach(function(drink){
                 console.log("Drink:", drink.strDrink, "| ID:", drink.idDrink)
             })
